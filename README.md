@@ -125,3 +125,20 @@ volumes:
 git clone git@github.com:domlan-dev/biblio-public.git
 ```
 2) Setup environment file (.env) in your local repository, according your preference: password level complexity, path naming convention etc.
+3) Create initial path for data (PostgreSQL, MongoDB and Redis). For a configuration like this:
+```
+...
+PATH_BIBLIO_DATA_POSTGRES=$HOME/biblio/data/postgres
+PATH_BIBLIO_DATA_MONGO=$HOME/biblio/data/db
+PATH_BIBLIO_DATA_REDIS=$HOME/biblio/data/redis
+...
+```
+you can use:
+```
+cd
+mkdir -p biblio/data
+cd biblio/data
+mkdir postgres
+mkdir db
+mkdir redis
+```

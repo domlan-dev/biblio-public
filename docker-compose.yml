@@ -61,16 +61,16 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '$HOME/${PATH_BIBLIO_DATA}/data/postgres'
+      device: ${PATH_BIBLIO_DATA_POSTGRES}
   dbdata7:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '$HOME/${PATH_BIBLIO_DATA}/data/db'
+      device: ${PATH_BIBLIO_DATA_MONGO}
   redisdata:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '$HOME/<PATH_BIBLIO_DATA>/data/redis'
+      device: ${PATH_BIBLIO_DATA_REDIS}
