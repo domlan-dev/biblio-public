@@ -38,7 +38,9 @@ dotnet dev-certs https --trust
 - <MONGODB_PASSWORD>
 - <REDIS_DB>
 - <REDIS_PASSWORD>
-- <PATH_BIBLIO_DATA>
+- <PATH_BIBLIO_DATA_POSTGRES>
+- <PATH_BIBLIO_DATA_MONGO>
+- <PATH_BIBLIO_DATA_REDIS>
 
 ```
 services:
@@ -48,11 +50,11 @@ services:
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081      
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=<HTTPS_CERT_PASSWORD>
-      - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=<POSTGRES_DBNAME>;Username=<POSTGRES_USERNAME>;Password=<POSTGRES_PASSWORD>;
-      - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://<MONGODB_USERNAME>:<MONGODB_PASSWORD>@mongodb:27017/?retryWrites=true&w=majority
-      - BIBLIO_REDIS_CONNECTIONSTRING=redis:6379,password=<REDIS_PASSWORD>,defaultDatabase=<REDIS_DB>,ssl=false,connectTimeout=10000,connectRetry=2"
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${HTTPS_CERT_PATH}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${HTTPS_CERT_PASSWORD}
+      - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=${POSTGRES_DBNAME};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};
+      - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb:27017/?retryWrites=true&w=majority
+      - BIBLIO_REDIS_CONNECTIONSTRING=redis:6379,password=${REDIS_PASSWORD},defaultDatabase=${REDIS_DB},ssl=false,connectTimeout=10000,connectRetry=2"
     ports:
       - 52456:8080
       - 53478:8081
@@ -70,9 +72,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=<POSTGRES_PASSWORD>
-      - POSTGRES_USER=<POSTGRES_USERNAME>
-      - POSTGRES_DB=<POSTGRES_DBNAME>
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_DB=${POSTGRES_DBNAME}
 
   mongodb:
     image: mongo:8.0.3-noble
@@ -82,8 +84,8 @@ services:
     volumes:
       - dbdata7:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=<MONGODB_USERNAME>
-      - MONGO_INITDB_ROOT_PASSWORD=<MONGODB_PASSWORD>
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
 
   redis:
     image: redis:8.0-M02-alpine3.20
@@ -94,9 +96,9 @@ services:
       - redisdata:/root/redis
       - redisdata:/usr/local/etc/redis/redis.conf
     environment:
-      - REDIS_PASSWORD=<REDIS_PASSWORD>
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
       - REDIS_PORT=6379
-      - REDIS_DATABASES=<REDIS_DB>
+      - REDIS_DATABASES=${REDIS_DB}
 
 volumes:
   pgdata:
@@ -104,22 +106,24 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '$HOME/<PATH_BIBLIO_DATA>/data/postgres'
+      device: ${PATH_BIBLIO_DATA_POSTGRES}
   dbdata7:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '$HOME/<PATH_BIBLIO_DATA>/data/db'
+      device: ${PATH_BIBLIO_DATA_MONGO}
   redisdata:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '$HOME/<PATH_BIBLIO_DATA>/data/redis'
+      device: ${PATH_BIBLIO_DATA_REDIS}
 ```
 
 ## Setup
+Prerequisite (for Certificate): install Net Core
+If you use a web server or load balancer for routing (Httpd, NetScaler, Apache, Nginx), you can exclude this set of settings. The SSL offload task will be performed at the load balancer or web server level and this Service (Biblio) will listen on HTTP port 53478
 1) Start cloning GitHub repository
 ```
 git clone git@github.com:domlan-dev/biblio-public.git
@@ -142,3 +146,10 @@ mkdir postgres
 mkdir db
 mkdir redis
 ```
+4) Setup CERTIFICATE
+In this step use same password set in .env file for label HTTPS_CERT_PASSWORD, according with path in HTTPS_CERT_PATH
+```
+dotnet dev-certs https -ep ${HOME}/.aspnet/{HTTPS_CERT_PATH} -p {HTTPS_CERT_PASSWORD}
+dotnet dev-certs https --trust
+```
+5) Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
