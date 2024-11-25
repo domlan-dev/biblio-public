@@ -169,7 +169,7 @@ cd Source/Repos/biblio-public
 docker compose up
 ```
 
-*start Biblio -detached mode*
+*or start Biblio - detached mode*
 ```
 docker compose up -d
 ```
