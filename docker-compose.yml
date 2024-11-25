@@ -1,0 +1,76 @@
+services:
+  biblio.ui:
+    image: domlan/biblio:1.1124
+    environment:      
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081      
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${HTTPS_CERT_PATH}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${HTTPS_CERT_PASSWORD}
+      - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=${POSTGRES_DBNAME};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};
+      - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb:27017/?retryWrites=true&w=majority
+      - BIBLIO_REDIS_CONNECTIONSTRING=redis:6379,password=${REDIS_PASSWORD},defaultDatabase=${REDIS_DB},ssl=false,connectTimeout=10000,connectRetry=2"
+    ports:
+      - 52456:8080
+      - 53478:8081
+    volumes:
+      - $HOME/.microsoft/usersecrets:/app/.microsoft/usersecrets:ro
+      - $HOME/.aspnet/https:/https:ro
+    depends_on:
+      - postgres
+      - mongodb
+  
+  postgres:
+    image: postgres:14.5-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_DB=${POSTGRES_DBNAME}
+
+  mongodb:
+    image: mongo:8.0.3-noble
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - dbdata7:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+
+  redis:
+    image: redis:8.0-M02-alpine3.20
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/root/redis
+      - redisdata:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=${REDIS_DB}
+
+volumes:
+  pgdata:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '$HOME/${PATH_BIBLIO_DATA}/data/postgres'
+  dbdata7:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '$HOME/${PATH_BIBLIO_DATA}/data/db'
+  redisdata:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '$HOME/<PATH_BIBLIO_DATA>/data/redis'
