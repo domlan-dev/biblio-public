@@ -25,12 +25,12 @@ Redis (Remote Dictionary Server) is a source-available, in-memory storage, use
 Prerequisite (for Certificate): install Net Core (https://learn.microsoft.com/en-us/dotnet/core/install/linux)
 
 If you use a web server or load balancer for routing (Httpd, NetScaler, Apache, Nginx), you can exclude this set of settings. The SSL offload task will be performed at the load balancer or web server level and this Service (Biblio) will listen on HTTP port 53478
-1) Start cloning GitHub repository
+Start cloning GitHub repository
 ```
 git clone git@github.com:domlan-dev/biblio-public.git
 ```
-2) Setup environment file (.env) in your local repository, according your preference: password level complexity, path naming convention etc.
-3) Create initial path for data (PostgreSQL, MongoDB and Redis). For a configuration like this:
+Setup environment file (.env) in your local repository, according your preference: password level complexity, path naming convention etc.
+Create initial path for data (PostgreSQL, MongoDB and Redis). For a configuration like this:
 ```
 ...
 PATH_BIBLIO_DATA_POSTGRES=$HOME/biblio/data/postgres
@@ -47,13 +47,13 @@ mkdir postgres
 mkdir db
 mkdir redis
 ```
-4) Setup CERTIFICATE
+Setup CERTIFICATE
 In this step use same password set in .env file for label HTTPS_CERT_PASSWORD, according with path in HTTPS_CERT_PATH
 ```
 dotnet dev-certs https -ep ${HOME}/.aspnet/{HTTPS_CERT_PATH} -p {HTTPS_CERT_PASSWORD}
 dotnet dev-certs https --trust
 ```
-5) Start stack vith Docker Compose
+Start stack vith Docker Compose
 
 *move to your Home*
 ```
@@ -75,4 +75,4 @@ docker compose up
 docker compose up -d
 ```
 
-6) Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
+Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
