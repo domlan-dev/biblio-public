@@ -120,7 +120,8 @@ volumes:
 ```
 
 ## Setup
-Start cloning GitHub repository
+1) Start cloning GitHub repository
 ```
 git clone git@github.com:domlan-dev/biblio-public.git
 ```
+2) Setup environment file (.env) in your local repository, according your preference: password level complexity, path naming convention etc.
