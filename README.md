@@ -152,4 +152,26 @@ In this step use same password set in .env file for label HTTPS_CERT_PASSWORD, a
 dotnet dev-certs https -ep ${HOME}/.aspnet/{HTTPS_CERT_PATH} -p {HTTPS_CERT_PASSWORD}
 dotnet dev-certs https --trust
 ```
-5) Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
+5) Start stack vith Docker Compose
+
+*move to your Home*
+```
+cd 
+```
+
+*move to your cloned repository directory (eg: /home/yourname/Source/Repos/biblio-public)*
+```
+cd Source/Repos/biblio-public
+```
+
+*start Biblio - attached mode*
+```
+docker compose up
+```
+
+*start Biblio -detached mode*
+```
+docker compose up -d
+```
+
+6) Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
