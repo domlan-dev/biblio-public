@@ -76,3 +76,7 @@ docker compose up -d
 ```
 
 Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
+
+## Issues or suggestions
+Feel free to reach out to me to report issues or suggestions. It would be greatly appreciated.
+You can send me your requests via GitHub, from the specific [section](https://github.com/domlan-dev/biblio-public/issues).
