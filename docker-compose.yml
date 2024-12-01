@@ -1,6 +1,6 @@
 services:
   biblio.ui:
-    image: domlan/biblio:1.1130
+    image: domlan/biblio:1.1201
     environment:      
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8080
