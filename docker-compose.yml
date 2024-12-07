@@ -25,6 +25,9 @@ services:
     image: domlan/biblio-deeplearning:1.1207
     ports:
       - 53480:8082
+    environment:
+      - SSL_CERT=${HTTPS_CERT_PATH}
+      - SSL_KEY=${HTTPS_CERT_PASSWORD}
     volumes: 
       - shared-temp:/tmp  
     depends_on:
