@@ -8,7 +8,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=${HTTPS_CERT_PATH}
       - ASPNETCORE_Kestrel__Certificates__Default__Password=${HTTPS_CERT_PASSWORD}
       - REACT_APP_BIBLIO_DEEPLEARNING_URL=https://biblio-deeplearning:53480
-      - REACT_APP_BIBLIO_WS_URL=https://biblio.ui:8081
+      - REACT_APP_BIBLIO_WS_URL=wss://biblio.ui:8081
       - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=${POSTGRES_DBNAME};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};
       - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb:27017/?retryWrites=true&w=majority
       - BIBLIO_REDIS_CONNECTIONSTRING=redis:6379,password=${REDIS_PASSWORD},defaultDatabase=${REDIS_DB},ssl=false,connectTimeout=10000,connectRetry=2
