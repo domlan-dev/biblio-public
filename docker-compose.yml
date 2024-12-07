@@ -16,9 +16,19 @@ services:
     volumes:
       - $HOME/.microsoft/usersecrets:/app/.microsoft/usersecrets:ro
       - $HOME/.aspnet/https:/https:ro
+      - shared-temp:/tmp
     depends_on:
       - postgres
       - mongodb
+
+  biblio-deeplearning:
+    image: domlan/biblio-deeplearning:1.1207
+    ports:
+      - 53480:8082
+    volumes: 
+      - shared-temp:/tmp  
+    depends_on:
+      - postgres      
   
   postgres:
     image: postgres:14.5-alpine
@@ -74,3 +84,9 @@ volumes:
       type: 'none'
       o: 'bind'
       device: ${PATH_BIBLIO_DATA_REDIS}
+  shared-temp:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${PATH_BIBLIO_TEMP}
