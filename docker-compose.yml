@@ -17,7 +17,6 @@ services:
       - 53478:8081
     networks:
       - shared-services-network
-      - deeplearning-net
     volumes:
       - $HOME/.microsoft/usersecrets:/app/.microsoft/usersecrets:ro
       - $HOME/.aspnet/https:/https:ro
@@ -31,12 +30,12 @@ services:
     env_file:
       - .env
     ports:
-      - 8082
+      - 53480:8082
     environment:
       - SSL_CERT=${HTTPS_CERT_PATH}
       - SSL_KEY=${HTTPS_CERT_PASSWORD}
     networks:
-      - deeplearning-net
+      - shared-services-network
     volumes: 
       - shared-temp:/tmp  
     depends_on:
@@ -91,9 +90,7 @@ services:
 
 networks:
   shared-services-network:
-    driver: bridge
-  deeplearning-net:
-    driver: bridge      
+    driver: bridge  
 
 volumes:
   pgdata:
