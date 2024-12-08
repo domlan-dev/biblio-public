@@ -7,7 +7,7 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081      
       - ASPNETCORE_Kestrel__Certificates__Default__Path=${HTTPS_CERT_PATH}
       - ASPNETCORE_Kestrel__Certificates__Default__Password=${HTTPS_CERT_PASSWORD}
-      - REACT_APP_BIBLIO_DEEPLEARNING_URL=https://biblio-deeplearning:53480
+      - REACT_APP_BIBLIO_DEEPLEARNING_URL=https://biblio-deeplearning
       - REACT_APP_BIBLIO_WS_URL=wss://biblio.ui:8081
       - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=${POSTGRES_DBNAME};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};
       - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb:27017/?retryWrites=true&w=majority
@@ -15,6 +15,8 @@ services:
     ports:
       - 52456:8080
       - 53478:8081
+    networks:
+      - deeplearning-net
     volumes:
       - $HOME/.microsoft/usersecrets:/app/.microsoft/usersecrets:ro
       - $HOME/.aspnet/https:/https:ro
@@ -26,10 +28,12 @@ services:
   biblio-deeplearning:
     image: domlan/biblio-deeplearning:1.1207
     ports:
-      - 53480:8082
+      - 8082
     environment:
       - SSL_CERT=${HTTPS_CERT_PATH}
       - SSL_KEY=${HTTPS_CERT_PASSWORD}
+    networks:
+      - deeplearning-net
     volumes: 
       - shared-temp:/tmp  
     depends_on:
@@ -69,6 +73,10 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - REDIS_PORT=6379
       - REDIS_DATABASES=${REDIS_DB}
+
+networks:
+  deeplearning-net:
+    driver: bridge      
 
 volumes:
   pgdata:
