@@ -16,6 +16,7 @@ services:
       - 52456:8080
       - 53478:8081
     networks:
+      - shared-services-network
       - deeplearning-net
     volumes:
       - $HOME/.microsoft/usersecrets:/app/.microsoft/usersecrets:ro
@@ -43,6 +44,8 @@ services:
     image: postgres:14.5-alpine
     ports:
       - 5432:5432
+    networks:
+      - shared-services-network
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
@@ -55,6 +58,8 @@ services:
     restart: always
     ports:
       - 27017:27017
+    networks:
+      - shared-services-network
     volumes:
       - dbdata7:/data/db
     environment:
@@ -66,6 +71,8 @@ services:
     restart: always
     ports:
       - 6379:6379
+    networks:
+      - shared-services-network
     volumes:
       - redisdata:/root/redis
       - redisdata:/usr/local/etc/redis/redis.conf
@@ -75,6 +82,8 @@ services:
       - REDIS_DATABASES=${REDIS_DB}
 
 networks:
+  shared-services-network:
+    driver: bridge
   deeplearning-net:
     driver: bridge      
 
