@@ -47,12 +47,7 @@ mkdir postgres
 mkdir db
 mkdir redis
 ```
-Setup CERTIFICATE
-In this step use same password set in .env file for label HTTPS_CERT_PASSWORD, according with path in HTTPS_CERT_PATH
-```
-dotnet dev-certs https -ep ${HOME}/.aspnet/{HTTPS_CERT_PATH} -p {HTTPS_CERT_PASSWORD}
-dotnet dev-certs https --trust
-```
+
 Start stack vith Docker Compose
 
 *move to your Home*
@@ -75,7 +70,7 @@ docker compose up
 docker compose up -d
 ```
 
-Open your browser and navigate to https://<yourMachineIp>:53478 (eg: https://localhost:53478 or http://localhost:53478)
+Open your browser and navigate to http://<yourMachineIp>:53478 (eg: http://192.168.88.40:53478)
 
 ## Issues or suggestions
 Feel free to reach out to me to report issues or suggestions. It would be greatly appreciated.

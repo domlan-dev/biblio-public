@@ -3,8 +3,7 @@ services:
     image: domlan/biblio:1.1207
     environment:      
       - ASPNETCORE_ENVIRONMENT=Staging
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081      
+      - ASPNETCORE_HTTP_PORTS=8081      
       - ASPNETCORE_Kestrel__Certificates__Default__Path=${HTTPS_CERT_PATH}
       - ASPNETCORE_Kestrel__Certificates__Default__Password=${HTTPS_CERT_PASSWORD}
       - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=${POSTGRES_DBNAME};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};
@@ -13,7 +12,6 @@ services:
     env_file:
       - .env
     ports:
-      - 52456:8080
       - 53478:8081
     networks:
       - shared-services-network
