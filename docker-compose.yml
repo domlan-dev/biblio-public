@@ -27,9 +27,6 @@ services:
       - .env
     ports:
       - 53480:8082
-    environment:
-      - SSL_CERT=${HTTPS_CERT_PATH}
-      - SSL_KEY=${HTTPS_CERT_PASSWORD}
     networks:
       - shared-services-network
     volumes: 
