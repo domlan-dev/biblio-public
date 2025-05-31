@@ -144,7 +144,7 @@ volumes:
       type: 'none'
       o: 'bind'
       device: ${PATH_BIBLIO_DATA_LIB_RABBITMQ}
-  rabbitmq_-log:
+  rabbitmq-log:
     driver: local
     driver_opts:
       type: 'none'
