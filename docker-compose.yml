@@ -1,6 +1,6 @@
 services:
   biblio.ui:
-    image: domlan/biblio:2.0508
+    image: domlan/biblio:2.0531
     environment:      
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8081      
@@ -22,7 +22,7 @@ services:
       - mongodb
 
   biblio-deeplearning:
-    image: domlan/biblio-deeplearning:2.0508
+    image: domlan/biblio-deeplearning:2.0531
     env_file:
       - .env
     ports:
@@ -32,7 +32,18 @@ services:
     volumes: 
       - shared-temp:/tmp  
     depends_on:
-      - postgres      
+      - postgres     
+
+  biblio-ocr:
+    image: domlan/biblio-ocr:2.0531
+    env_file:
+      - .env
+    networks:
+      - shared-services-network
+    volumes: 
+      - shared-temp:/tmp  
+    depends_on:
+      - postgres    
   
   postgres:
     image: postgres:14.5-alpine
@@ -81,6 +92,29 @@ services:
       - REDIS_PORT=6379
       - REDIS_DATABASES=${CACHE_DB}
 
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - shared-services-network
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+
+configs:
+  rabbitmq-plugins:
+    content: "[rabbitmq_management]."            
+
 networks:
   shared-services-network:
     driver: bridge  
@@ -104,6 +138,18 @@ volumes:
       type: 'none'
       o: 'bind'
       device: ${PATH_BIBLIO_DATA_REDIS}
+  rabbitmq-lib:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${PATH_BIBLIO_DATA_LIB_RABBITMQ}
+  rabbitmq_-log:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${PATH_BIBLIO_DATA_LOG_RABBITMQ}
   shared-temp:
     driver: local
     driver_opts:
