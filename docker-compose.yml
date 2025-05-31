@@ -20,6 +20,7 @@ services:
     depends_on:
       - postgres
       - mongodb
+      - rabbitmq
 
   biblio-deeplearning:
     image: domlan/biblio-deeplearning:2.0531
