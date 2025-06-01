@@ -1,6 +1,7 @@
 services:
   biblio.ui:
     image: domlan/biblio:2.0531
+    restart: on-failure
     environment:      
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8081      
