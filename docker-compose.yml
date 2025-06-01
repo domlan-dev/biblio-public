@@ -20,11 +20,11 @@ services:
       - shared-temp:/tmp
     depends_on:
       rabbitmq:
-        condition: service_healty
+        condition: service_healthy
       postgres:
-        condition: service_healty      
+        condition: service_healthy      
       mongodb:     
-        condition: service_healty       
+        condition: service_healthy       
 
   biblio-deeplearning:
     image: domlan/biblio-deeplearning:2.0531
