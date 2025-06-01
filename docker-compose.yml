@@ -20,9 +20,12 @@ services:
       - $HOME/.aspnet/https:/https:ro
       - shared-temp:/tmp
     depends_on:
-      - postgres
-      - mongodb
-      - rabbitmq
+      rabbitmq:
+        condition: service_healty
+      postgres:
+        condition: service_healty      
+      mongodb:     
+        condition: service_healty       
 
   biblio-deeplearning:
     image: domlan/biblio-deeplearning:2.0531
@@ -54,6 +57,11 @@ services:
       - .env
     ports:
       - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME} -d ${POSTGRES_DBNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - shared-services-network
     volumes:
@@ -70,6 +78,11 @@ services:
       - .env
     ports:
       - 27017:27017
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5      
     networks:
       - shared-services-network
     volumes:
@@ -102,6 +115,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - shared-services-network
     environment:
