@@ -78,7 +78,11 @@ services:
     ports:
       - 27017:27017
     healthcheck:
-      test: ["CMD", "mongo", "--quiet", "-u", ${MONGODB_USERNAME}, "-p", ${MONGODB_PASSWORD}, "--eval", "db.adminCommand('ping')"]
+      test:
+        [
+          "CMD-SHELL",
+          "mongo --quiet -u \"$${MONGODB_USERNAME}\" -p \"$${MONGODB_PASSWORD}\" --authenticationDatabase admin --eval \"db.adminCommand('ping')\""
+        ]
       interval: 10s
       timeout: 5s
       retries: 5   
