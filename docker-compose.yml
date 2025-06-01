@@ -81,13 +81,12 @@ services:
       - 27017:27017
     healthcheck:
       test:
-        [
-          "CMD-SHELL",
-          "sleep 5 && mongo --quiet -u \"$${MONGODB_USERNAME}\" -p \"$${MONGODB_PASSWORD}\" --authenticationDatabase admin --eval \"db.adminCommand('ping')\""
-        ]
-      interval: 10s
+        - CMD-SHELL
+        - |
+          sleep 5 && mongosh "mongodb://$${MONGODB_USERNAME}:$${MONGODB_PASSWORD}@localhost:27017/admin" --quiet --eval "db.runCommand({ ping: 1 })"
       timeout: 5s
-      retries: 10   
+      interval: 10s
+      retries: 10
     networks:
       - shared-services-network
     volumes:
