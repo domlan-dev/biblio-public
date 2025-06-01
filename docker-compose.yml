@@ -7,6 +7,7 @@ services:
       - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=${POSTGRES_DBNAME};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};
       - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb:27017/?retryWrites=true&w=majority
       - BIBLIO_CACHE_CONNECTIONSTRING=cache:6379,password=${CACHE_PASSWORD},defaultDatabase=${CACHE_DB},ssl=false,connectTimeout=10000,connectRetry=2
+      - BIBLIO_RABBITMQ_CONNECTIONSTRING=amqp://${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}/${RABBITMQ_VHOST}
     env_file:
       - .env
     ports:
