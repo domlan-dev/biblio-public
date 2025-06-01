@@ -77,11 +77,11 @@ services:
       - .env
     ports:
       - 27017:27017
-healthcheck:
-  test: ["CMD", "mongo", "--quiet", "-u", ${MONGODB_USERNAME}, "-p", ${MONGODB_PASSWORD}, "--eval", "db.adminCommand('ping')"]
-  interval: 10s
-  timeout: 5s
-  retries: 5   
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "-u", ${MONGODB_USERNAME}, "-p", ${MONGODB_PASSWORD}, "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5   
     networks:
       - shared-services-network
     volumes:
