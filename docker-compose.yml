@@ -37,7 +37,8 @@ services:
     volumes: 
       - shared-temp:/tmp  
     depends_on:
-      - postgres     
+      postgres:
+        condition: service_healthy       
 
   biblio-ocr:
     image: domlan/biblio-ocr:2.0531
@@ -48,7 +49,8 @@ services:
     volumes: 
       - shared-temp:/tmp  
     depends_on:
-      - postgres    
+      postgres:
+        condition: service_healthy      
   
   postgres:
     image: postgres:14.5-alpine
