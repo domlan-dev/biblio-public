@@ -81,11 +81,11 @@ services:
       test:
         [
           "CMD-SHELL",
-          "mongo --quiet -u \"$${MONGODB_USERNAME}\" -p \"$${MONGODB_PASSWORD}\" --authenticationDatabase admin --eval \"db.adminCommand('ping')\""
+          "sleep 5 && mongo --quiet -u \"$${MONGODB_USERNAME}\" -p \"$${MONGODB_PASSWORD}\" --authenticationDatabase admin --eval \"db.adminCommand('ping')\""
         ]
       interval: 10s
       timeout: 5s
-      retries: 5   
+      retries: 10   
     networks:
       - shared-services-network
     volumes:
