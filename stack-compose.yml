@@ -131,13 +131,13 @@ services:
       - RABBITMQ_DEFAULT_USER=usrqueuermq
       - RABBITMQ_DEFAULT_PASS=E773i4KG8gJFU
       - RABBITMQ_DEFAULT_VHOST=vhost
-    configs:
-      - source: rabbitmq-plugins
-        target: /etc/rabbitmq/enabled_plugins
-        mode: 0444
     volumes:
       - rabbitmq-lib:/var/lib/rabbitmq/
       - rabbitmq-log:/var/log/rabbitmq
+      - type: bind
+        source: /mnt/swarm-volumes/rabbitmq/config/enabled_plugins
+        target: /etc/rabbitmq/enabled_plugins
+        read_only: true
     deploy:
       restart_policy:
         condition: any
@@ -147,10 +147,6 @@ services:
       placement:
         constraints:
           - node.role == worker
-
-configs:
-  rabbitmq-plugins:
-    file: ./rabbitmq/enabled_plugins
 
 networks:
   shared-services-network:
