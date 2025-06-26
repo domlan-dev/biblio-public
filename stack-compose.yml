@@ -1,6 +1,6 @@
 services:
   biblio-ui:
-    image: domlan/biblio:2.0508
+    image: domlan/biblio:2.0626
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8081
@@ -25,7 +25,7 @@ services:
       - mongodb
 
   biblio-deeplearning:
-    image: domlan/biblio-deeplearning:2.0508
+    image: domlan/biblio-deeplearning:2.0626
     env_file:
       - .env
     ports:
@@ -36,6 +36,21 @@ services:
       - shared-temp:/tmp
     deploy:
       placement:
+        constraints:
+          - node.role == worker
+    depends_on:
+      - postgres
+
+  biblio-ocr:
+    image: domlan/biblio-ocr:2.0626
+    env_file:
+      - .env
+    networks:
+      - shared-services-network
+    volumes: 
+      - shared-temp:/tmp  
+        deploy:
+    placement:
         constraints:
           - node.role == worker
     depends_on:
@@ -100,6 +115,30 @@ services:
       - REDIS_PORT=6379
       - REDIS_DATABASES=12
 
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shared-services-network
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_VHOST}
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+
 networks:
   shared-services-network:
     driver: overlay
@@ -114,3 +153,7 @@ volumes:
     name: redisdata
   shared-temp:
     name: shared-temp
+  rabbitmq-lib:
+    name: rabbitmq-lib
+  rabbitmq-log:
+    name: rabbitmq-log
