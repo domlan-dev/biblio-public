@@ -159,14 +159,32 @@ networks:
 
 volumes:
   pgdata:
-    name: pgdata
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/mnt/nfs/swarm-volumes/pgdata"
   dbdata7:
-    name: dbdata7
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/mnt/nfs/swarm-volumes/dbdata7"
   redisdata:
-    name: redisdata
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/mnt/nfs/swarm-volumes/redisdata"
   shared-temp:
-    name: shared-temp
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/mnt/nfs/swarm-volumes/shared-temp"
   rabbitmq-lib:
-    name: rabbitmq-lib
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/mnt/nfs/swarm-volumes/rabbitmq-lib"
   rabbitmq-log:
-    name: rabbitmq-log
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "/mnt/nfs/swarm-volumes/rabbitmq-log"
