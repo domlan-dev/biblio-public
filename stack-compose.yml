@@ -9,7 +9,7 @@ services:
       - BIBLIO_POSTGRES_CONNECTIONSTRING=Host=postgres;Port=5432;Database=citizix_db;Username=citizix_user;Password=Gc6hf0hIcQ8MWNN
       - BIBLIO_MONGODB_CONNECTIONSTRING=mongodb://root:Hh5Ad2Nvmp4EVRu@mongodb:27017/?retryWrites=true&w=majority
       - BIBLIO_CACHE_CONNECTIONSTRING=cache:6379,password=jYt1UYmv0GGtaTu,defaultDatabase=12,ssl=false,connectTimeout=1000,connectRetry=2
-      - BIBLIO_RABBITMQ_CONNECTIONSTRING=amqp://${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}/${RABBITMQ_VHOST}
+      - BIBLIO_RABBITMQ_CONNECTIONSTRING=amqp://usrqueuermq:E773i4KG8gJFU@rabbitmq:5672/vhost
     env_file:
       - .env
     ports:
@@ -128,9 +128,9 @@ services:
     networks:
       - shared-services-network
     environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
-      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_DEFAULT_USER=usrqueuermq
+      - RABBITMQ_DEFAULT_PASS=E773i4KG8gJFU
+      - RABBITMQ_DEFAULT_VHOST=vhost
     configs:
       - source: rabbitmq-plugins
         target: /etc/rabbitmq/enabled_plugins
