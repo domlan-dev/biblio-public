@@ -49,8 +49,8 @@ services:
       - shared-services-network
     volumes: 
       - shared-temp:/tmp  
-        deploy:
-    placement:
+    deploy:
+      placement:
         constraints:
           - node.role == worker
     depends_on:
