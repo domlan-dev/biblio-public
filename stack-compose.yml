@@ -158,29 +158,29 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/mnt/nfs/swarm-volumes/pgdata"
+      device: "/mnt/swarm-volumes/pgdata"
   dbdata7:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/mnt/nfs/swarm-volumes/dbdata7"
+      device: "/mnt/swarm-volumes/dbdata7"
   redisdata:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/mnt/nfs/swarm-volumes/redisdata"
+      device: "/mnt/swarm-volumes/redisdata"
   shared-temp:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/mnt/nfs/swarm-volumes/shared-temp"
+      device: "/mnt/swarm-volumes/shared-temp"
   rabbitmq-lib:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/mnt/nfs/swarm-volumes/rabbitmq-lib"
+      device: "/mnt/swarm-volumes/rabbitmq-lib"
   rabbitmq-log:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/mnt/nfs/swarm-volumes/rabbitmq-log"
+      device: "/mnt/swarm-volumes/rabbitmq-log"
