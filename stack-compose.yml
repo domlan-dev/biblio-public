@@ -135,13 +135,14 @@ services:
     configs:
       - source: rabbitmq-plugins
         target: /etc/rabbitmq/enabled_plugins
+        mode: 0444
     volumes:
       - rabbitmq-lib:/var/lib/rabbitmq/
       - rabbitmq-log:/var/log/rabbitmq
 
 configs:
   rabbitmq-plugins:
-    content: "[rabbitmq_management]."   
+    file: ./rabbitmq/enabled_plugins
 
 networks:
   shared-services-network:
