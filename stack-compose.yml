@@ -155,31 +155,42 @@ networks:
 
 volumes:
   pgdata:
+    driver: local
     driver_opts:
       type: "none"
       o: "bind"
       device: "/mnt/swarm-volumes/pgdata"
+
   dbdata7:
+    driver: local
     driver_opts:
       type: "none"
       o: "bind"
       device: "/mnt/swarm-volumes/dbdata7"
+
   redisdata:
+    driver: local
     driver_opts:
       type: "none"
       o: "bind"
       device: "/mnt/swarm-volumes/redisdata"
+
   shared-temp:
+    driver: local
     driver_opts:
       type: "none"
       o: "bind"
       device: "/mnt/swarm-volumes/shared-temp"
+
   rabbitmq-lib:
+    driver: local
     driver_opts:
       type: "none"
       o: "bind"
       device: "/mnt/swarm-volumes/rabbitmq-lib"
+
   rabbitmq-log:
+    driver: local
     driver_opts:
       type: "none"
       o: "bind"
