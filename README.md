@@ -1,7 +1,9 @@
 # Biblio (*Documents storage system*)
 
 Biblio is a tool for organizing and storing various documentation, consisting of files in PDF format. It consists of:
-- Biblio, main Net Core 8.0 SPA
+- [Biblio](https://hub.docker.com/r/domlan/biblio), main Net Core 8.0 SPA
+- [Biblio Deeplearning](https://hub.docker.com/r/domlan/biblio-deeplearning)
+- [Biblio OCR](https://hub.docker.com/r/domlan/biblio-ocr)
 - Postgresql
 - MongoDB
 - Redis
