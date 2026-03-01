@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   biblio-ui:
-    image: domlan/biblio:3.0227
+    image: domlan/biblio:3.0228
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8081
@@ -27,7 +27,7 @@ services:
       - mongodb
 
   biblio-deeplearning:
-    image: domlan/biblio-deeplearning:3.0227
+    image: domlan/biblio-deeplearning:3.0228
     env_file:
       - .env
     ports:
@@ -44,7 +44,7 @@ services:
       - postgres
 
   biblio-ocr:
-    image: domlan/biblio-ocr:3.0227
+    image: domlan/biblio-ocr:3.0228
     env_file:
       - .env
     networks:
