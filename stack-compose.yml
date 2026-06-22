@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   biblio-ui:
-    image: domlan/biblio:3.0228
+    image: domlan/biblio:3.0622
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_HTTP_PORTS=8081
@@ -27,7 +27,7 @@ services:
       - mongodb
 
   biblio-deeplearning:
-    image: domlan/biblio-deeplearning:3.0228
+    image: domlan/biblio-deeplearning:3.0622
     env_file:
       - .env
     ports:
@@ -44,7 +44,7 @@ services:
       - postgres
 
   biblio-ocr:
-    image: domlan/biblio-ocr:3.0228
+    image: domlan/biblio-ocr:3.0622
     env_file:
       - .env
     networks:
@@ -96,7 +96,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=Hh5Ad2Nvmp4EVRu
 
   cache:
-    image: redis:8.0-M03-alpine3.21
+    image: redis:8.6.1-alpine
     env_file:
       - .env
     ports:
@@ -114,6 +114,27 @@ services:
       - REDIS_PASSWORD=jYt1UYmv0GGtaTu
       - REDIS_PORT=6379
       - REDIS_DATABASES=12
+
+  cache_insight:
+    image: redis/redisinsight:3.2.0
+    env_file:
+      - .env
+    ports:
+      - "5540:5540"
+    networks:
+      - shared-services-network
+    depends_on:
+      - cache
+    volumes:
+      - redisinsight:/data      
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+    environment:
+      - RI_REDIS_HOST=cache
+      - RI_REDIS_PORT=6379
+      - RI_REDIS_PASSWORD=jYt1UYmv0GGtaTu
 
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
